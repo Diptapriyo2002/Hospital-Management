@@ -1,0 +1,179 @@
+{% extends 'admin_nav.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .page-container {
+        padding: 20px;
+    }
+    
+    .card-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .page-title {
+        color: #2c3e50;
+        font-weight: 600;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #3498db;
+        margin-bottom: 25px;
+        font-size: 24px;
+    }
+    
+    .query-details {
+        margin-top: 20px;
+    }
+    
+    .detail-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .detail-table tr {
+        border-bottom: 1px solid #eee;
+    }
+    
+    .detail-table th {
+        background: #f8f9fa;
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        color: #2c3e50;
+        width: 200px;
+    }
+    
+    .detail-table td {
+        padding: 15px;
+        color: #555;
+    }
+    
+    .message-content {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #3498db;
+        margin: 20px 0;
+    }
+    
+    .back-button {
+        margin-top: 30px;
+    }
+    
+    .btn-back {
+        background: #95a5a6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .btn-back:hover {
+        background: #7f8c8d;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .btn-back i {
+        margin-right: 8px;
+    }
+    
+    .status-badge {
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .status-read {
+        background: #27ae60;
+        color: white;
+    }
+    
+    .status-unread {
+        background: #e74c3c;
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .detail-table th, .detail-table td {
+            padding: 10px;
+            display: block;
+            width: 100%;
+        }
+        
+        .detail-table th {
+            background: #eef2f7;
+            border-bottom: none;
+        }
+        
+        .detail-table tr {
+            margin-bottom: 15px;
+            display: block;
+            border-bottom: 2px solid #eee;
+        }
+    }
+</style>
+
+<div class="page-container">
+    <div class="card-container">
+        <h3 class="page-title">Query Details</h3>
+        
+        <div class="query-details">
+            <table class="detail-table">
+                <tr>
+                    <th>Name</th>
+                    <td>{{contact.name}}</td>
+                </tr>
+                
+                <tr>
+                    <th>Contact No.</th>
+                    <td>{{contact.contact}}</td>
+                </tr>
+                
+                <tr>
+                    <th>Email ID</th>
+                    <td>{{contact.email}}</td>
+                </tr>
+                
+                <tr>
+                    <th>Subject</th>
+                    <td>{{contact.subject}}</td>
+                </tr>
+                
+                <tr>
+                    <th>Enquiry Date</th>
+                    <td>{{contact.msgdate}}</td>
+                </tr>
+                
+                <tr>
+                    <th>Status</th>
+                    <td>
+                        <span class="status-badge status-read">Read</span>
+                    </td>
+                </tr>
+            </table>
+            
+            <div class="message-content">
+                <h5>Message:</h5>
+                <p>{{contact.message}}</p>
+            </div>
+            
+            <div class="back-button">
+                <a href="javascript:history.back()" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Back to Queries
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,155 @@
+{% extends 'navigation.html' %}
+{% load static %}
+{% block body %}
+
+<style>
+    .about-section {
+        padding: 80px 0;
+        background-color: #f8f9fa;
+    }
+    
+    .section-title {
+        margin-bottom: 40px;
+        position: relative;
+    }
+    
+    .section-subtitle {
+        color: #3498db;
+        font-weight: 600;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+    }
+    
+    .section-main-title {
+        font-size: 36px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+    
+    .section-main-title strong {
+        color: #3498db;
+    }
+    
+    .about-item {
+        margin-bottom: 30px;
+    }
+    
+    .about-item p {
+        font-size: 16px;
+        line-height: 1.8;
+        color: #555;
+        margin-bottom: 20px;
+    }
+    
+    .about-item h4 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+    
+    .about-item h4 span:first-child {
+        color: #e74c3c;
+    }
+    
+    .about-item h4 span:last-child {
+        color: #3498db;
+    }
+    
+    .about-box, .about-boxx {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .about-box:hover, .about-boxx:hover {
+        transform: translateY(-5px);
+    }
+    
+    .about-box img, .about-boxx img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+    
+    @media (max-width: 768px) {
+        .section-main-title {
+            font-size: 28px;
+        }
+        
+        .about-box, .about-boxx {
+            margin-bottom: 30px;
+        }
+    }
+</style>
+
+<section class="about-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="section-title">
+                    <div class="section-subtitle">About Us</div>
+                    <h2 class="section-main-title">
+                        All About <strong>Our Hospital</strong>
+                    </h2>
+                </div>
+
+                <div class="about-item">
+                    <p>A hospital is a place where a person goes to be healed when he or
+                        she is sick or injured. Hospitals also treat people who do not stay
+                        overnight, called outpatients. Doctors and nurses work at hospitals.
+                        Doctors make use of advanced medical technology to heal patients.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-5 offset-lg-1">
+                <div class="about-box">
+                    <img src="{% static 'Hospital_Management_app/images/about-1.jpg' %}" alt="About Hospital">
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center mt-5 pt-5">
+            <div class="col-lg-5">
+                <div class="about-boxx">
+                    <img src="{% static 'Hospital_Management_app/images/about1.jpg' %}" alt="Doctors and Nurses">
+                </div>
+            </div>
+            
+            <div class="col-lg-6 offset-lg-1">
+                <div class="about-item">
+                    <h4><span>All About</span> <span><b>Doctors & Nurses</b></span></h4>
+                    <p>Doctors and Nurses may refer to a children's game of imaginative
+                        role-playing where medical profession roles are adopted and acted out.
+                    A nurse is a person who is trained to give care to people who are sick or injured.
+                        Nurses work with doctors and other health care workers to make patients.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center mt-5 pt-5">
+            <div class="col-lg-6">
+                <div class="about-item">
+                    <h4><span>All About</span> <span><b>Support Staff</b></span></h4>
+                    <p>A Hospital cleaner a cleaning operative is a type of industrial or
+                        domestic worker who cleans homes, commercial premises and also clean
+                        the Hospital Platform. A cleaner is someone who takes
+                        away garbage and cleans surfaces. Cleaners sometimes repair things,
+                        and maintain their equipment in good working.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-5 offset-lg-1">
+                <div class="about-box">
+                    <img src="{% static 'Hospital_Management_app/images/about2.jpg' %}" alt="Hospital Staff">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock%}

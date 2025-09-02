@@ -1,0 +1,199 @@
+{% extends 'admin_nav.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .page-container {
+        padding: 20px;
+    }
+    
+    .card-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .page-title {
+        color: #2c3e50;
+        font-weight: 600;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #3498db;
+        margin-bottom: 25px;
+        font-size: 24px;
+    }
+    
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 0;
+    }
+    
+    .table th {
+        background: #3498db;
+        color: white;
+        font-weight: 600;
+        padding: 15px;
+        text-align: left;
+        border: none;
+    }
+    
+    .table td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+    }
+    
+    .table tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .btn-primary {
+        background: #3498db;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.3s;
+        margin-right: 5px;
+    }
+    
+    .btn-primary:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+    }
+    
+    .btn-danger {
+        background: #e74c3c;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .btn-danger:hover {
+        background: #c0392b;
+        transform: translateY(-2px);
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #7f8c8d;
+    }
+    
+    .empty-state i {
+        font-size: 50px;
+        margin-bottom: 15px;
+        color: #bdc3c7;
+    }
+    
+    .empty-state p {
+        font-size: 18px;
+        margin-bottom: 0;
+    }
+    
+    .action-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    @media (max-width: 768px) {
+        .table th, .table td {
+            padding: 10px;
+            font-size: 14px;
+        }
+        
+        .btn-primary, .btn-danger {
+            padding: 6px 12px;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="page-container">
+    <div class="card-container">
+        <h3 class="page-title">Doctor Management</h3>
+        
+        <div class="table-container">
+            {% if doc %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Doctor Name</th>
+                            <th>Contact</th>
+                            <th>Specialization</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in doc %}
+                        <tr>
+                            <td>{{i.id}}</td>
+                            <td>{{i.name}}</td>
+                            <td>{{i.mobile}}</td>
+                            <td>{{i.special}}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="{% url 'edit_doctor' i.id %}" class="btn btn-primary">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a href="{% url 'delete_doctor' i.id %}" 
+                                       onclick="return confirm('Are you sure you want to delete this doctor?')" 
+                                       class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-user-md"></i>
+                <p>No doctors found in the system</p>
+                <a href="{% url 'add_doctor' %}" class="btn btn-primary mt-3">
+                    <i class="fas fa-plus"></i> Add First Doctor
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to confirm deletion
+    function confirmDelete(event) {
+        if (!confirm('Are you sure you want to delete this doctor record?')) {
+            event.preventDefault();
+            return false;
+        }
+        return true;
+    }
+    
+    // Add confirmation to all delete links
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteLinks = document.querySelectorAll('a[href*="delete_doctor"]');
+        deleteLinks.forEach(link => {
+            link.addEventListener('click', confirmDelete);
+        });
+    });
+</script>
+
+{% endblock content %}

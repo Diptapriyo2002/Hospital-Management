@@ -1,0 +1,131 @@
+{% extends 'admin_nav.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .form-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin: 30px auto;
+        max-width: 800px;
+    }
+    
+    .form-title {
+        color: #2c3e50;
+        font-weight: 600;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #3498db;
+        margin-bottom: 30px;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+    
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 12px 15px;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+    
+    .btn-primary {
+        background: #3498db;
+        border: none;
+        padding: 12px 25px;
+        font-weight: 600;
+        border-radius: 5px;
+        transition: all 0.3s;
+    }
+    
+    .btn-primary:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <h3 class="form-title">Edit Doctor Details</h3>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Doctor Name</label>
+                    <input type="text" name="name" class="form-control" value="{{doctor.name}}" required>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Contact Number</label>
+                    <input type="text" name="mobile" class="form-control" value="{{doctor.mobile}}" required>
+                    <small class="form-text text-muted">Please enter a valid 10-digit mobile number</small>
+                </div>
+
+                <div class="col-md-12 mb-4">
+                    <label class="form-label">Specialization</label>
+                    <input type="text" name="special" class="form-control" value="{{doctor.special}}" required>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Update Doctor</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if error == "no" %}
+<script>
+    setTimeout(function() {
+        window.location = "{% url 'view_doctor' %}";
+    }, 1500);
+    
+    // Show success notification
+    document.addEventListener('DOMContentLoaded', function() {
+        showNotification('Doctor details updated successfully!', 'success');
+    });
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        showNotification('Something went wrong. Please try again.', 'error');
+    });
+{% endif %}
+
+<script>
+    function showNotification(message, type) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+        notification.style.position = 'fixed';
+        notification.style.top = '100px';
+        notification.style.right = '20px';
+        notification.style.zIndex = '1000';
+        notification.style.minWidth = '300px';
+        notification.innerHTML = `
+            ${message}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        `;
+        
+        // Add to page
+        document.body.appendChild(notification);
+        
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+</script>
+
+{% endblock content %}

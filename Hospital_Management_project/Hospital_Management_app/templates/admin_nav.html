@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-color: #ecf0f1;
+      --dark-color: #2c3e50;
+      --success-color: #2ecc71;
+      --warning-color: #f39c12;
+      --sidebar-width: 260px;
+      --header-height: 70px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7f9;
+      color: #333;
+      padding-left: var(--sidebar-width);
+      min-height: 100vh;
+    }
+    
+    /* Sidebar Styles */
+    .sidebar {
+      background: var(--primary-color);
+      height: 100vh;
+      width: var(--sidebar-width);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      overflow-y: auto;
+    }
+    
+    .sidebar-header {
+      padding: 20px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-header img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .sidebar-header h4 {
+      color: white;
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    .sidebar-header p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+    }
+    
+    .sidebar-menu {
+      padding: 10px 0;
+    }
+    
+    .sidebar-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .sidebar-menu li {
+      position: relative;
+    }
+    
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: all 0.3s;
+      border-left: 3px solid transparent;
+    }
+    
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-left: 3px solid var(--secondary-color);
+    }
+    
+    .sidebar-menu i {
+      margin-right: 15px;
+      font-size: 18px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .sub-menu {
+      padding-left: 30px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    
+    .sub-menu.show {
+      max-height: 500px;
+    }
+    
+    .sub-menu a {
+      padding: 10px 20px;
+      font-size: 14px;
+      border-left: 0 !important;
+    }
+    
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1001;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: white;
+      height: var(--header-height);
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: var(--sidebar-width);
+      z-index: 900;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      transition: all 0.3s;
+    }
+    
+    .brand {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .user-actions a {
+      color: var(--dark-color);
+      margin-left: 15px;
+      font-size: 16px;
+    }
+    
+    .user-actions a:hover {
+      color: var(--secondary-color);
+    }
+    
+    /* Main Content */
+    main {
+      margin-top: var(--header-height);
+      padding: 20px;
+      min-height: calc(100vh - var(--header-height));
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      body {
+        padding-left: 0;
+      }
+      
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      
+      .main-header {
+        left: 0;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .main-header .brand {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <button class="menu-toggle" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="{% static 'Hospital_Management_app/images/h8.png' %}" alt="Admin Avatar">
+      <h4>Hospital Admin</h4>
+      <p>Administrator Panel</p>
+    </div>
+    
+    <nav class="sidebar-menu">
+      <ul>
+        <li>
+          <a href="{% url 'admin_home' %}" class="{% if request.path == '/admin_home/' %}active{% endif %}">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        
+        <li>
+          <a href="#doctorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            <i class="fas fa-user-md"></i>
+            <span>Doctor</span>
+          </a>
+          <ul class="sub-menu collapse" id="doctorSubmenu">
+            <li>
+              <a href="{% url 'add_doctor' %}">Add Doctor</a>
+            </li>
+            <li>
+              <a href="{% url 'view_doctor' %}">View Doctor</a>
+            </li>
+          </ul>
+        </li>
+        
+        <li>
+          <a href="#patientSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            <i class="fas fa-user-injured"></i>
+            <span>Patient</span>
+          </a>
+          <ul class="sub-menu collapse" id="patientSubmenu">
+            <li>
+              <a href="{% url 'add_patient' %}">Add Patient</a>
+            </li>
+            <li>
+              <a href="{% url 'view_patient' %}">View Patient</a>
+            </li>
+          </ul>
+        </li>
+        
+        <li>
+          <a href="#appointmentSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            <i class="fas fa-calendar-check"></i>
+            <span>Appointment</span>
+          </a>
+          <ul class="sub-menu collapse" id="appointmentSubmenu">
+            <li>
+              <a href="{% url 'add_appointment' %}">Add Appointment</a>
+            </li>
+            <li>
+              <a href="{% url 'view_appointment' %}">View Appointment</a>
+            </li>
+          </ul>
+        </li>
+        
+        <li>
+          <a href="#queriesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            <i class="fas fa-question-circle"></i>
+            <span>View Queries</span>
+          </a>
+          <ul class="sub-menu collapse" id="queriesSubmenu">
+            <li>
+              <a href="{% url 'unread_queries' %}">Unread Queries</a>
+            </li>
+            <li>
+              <a href="{% url 'read_queries' %}">Read Queries</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="brand">HOSPITAL MANAGEMENT SYSTEM</div>
+    <div class="user-actions">
+      <a href="{% url 'logout' %}" title="Logout">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    {% block content %}
+    {% endblock content %}
+  </main>
+
+  <script>
+    // Toggle sidebar on mobile
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+      document.querySelector('.sidebar').classList.toggle('show');
+    });
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+      const sidebar = document.querySelector('.sidebar');
+      const toggleBtn = document.getElementById('sidebarToggle');
+      
+      if (window.innerWidth < 992 && 
+          !sidebar.contains(event.target) && 
+          !toggleBtn.contains(event.target) &&
+          sidebar.classList.contains('show')) {
+        sidebar.classList.remove('show');
+      }
+    });
+    
+    // Automatically activate current menu item
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentPath = window.location.pathname;
+      const menuLinks = document.querySelectorAll('.sidebar-menu a');
+      
+      menuLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+          link.classList.add('active');
+          
+          // Expand parent dropdown if exists
+          const parentDropdown = link.closest('.sub-menu');
+          if (parentDropdown) {
+            parentDropdown.classList.add('show');
+            const toggleElement = document.querySelector(`[href="#${parentDropdown.id}"]`);
+            if (toggleElement) {
+              toggleElement.setAttribute('aria-expanded', 'true');
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

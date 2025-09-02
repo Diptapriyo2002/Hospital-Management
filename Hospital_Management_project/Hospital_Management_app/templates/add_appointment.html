@@ -1,0 +1,148 @@
+{% extends 'admin_nav.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .form-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin: 30px auto;
+        max-width: 800px;
+    }
+    
+    .form-title {
+        color: #2c3e50;
+        font-weight: 600;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #3498db;
+        margin-bottom: 30px;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+    
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 12px 15px;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+    
+    .btn-primary {
+        background: #3498db;
+        border: none;
+        padding: 12px 25px;
+        font-weight: 600;
+        border-radius: 5px;
+        transition: all 0.3s;
+    }
+    
+    .btn-primary:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+    }
+    
+    .alert-box {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        z-index: 1000;
+        min-width: 300px;
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <h3 class="form-title">Add New Appointment</h3>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Doctor Name</label>
+                    <select name="doctor" class="form-control" required>
+                        <option value="">Select Doctor</option>
+                        {% for i in doctor %}
+                        <option value="{{i.name}}">{{i.name}} [{{i.id}}]</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Patient Name</label>
+                    <select name="patient" class="form-control" required>
+                        <option value="">Select Patient</option>
+                        {% for i in patient %}
+                        <option value="{{i.name}}">{{i.name}} [{{i.id}}]</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="date" name="date" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Time</label>
+                    <input type="time" name="time" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Schedule Appointment</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if error == "no" %}
+<script>
+    setTimeout(function() {
+        window.location = "{% url 'view_appointment' %}";
+    }, 1500);
+    
+    // Show success notification
+    document.addEventListener('DOMContentLoaded', function() {
+        showNotification('Appointment scheduled successfully!', 'success');
+    });
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        showNotification('Something went wrong. Please try again.', 'error');
+    });
+{% endif %}
+
+<script>
+    function showNotification(message, type) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show alert-box`;
+        notification.innerHTML = `
+            ${message}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        `;
+        
+        // Add to page
+        document.body.appendChild(notification);
+        
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+</script>
+
+{% endblock content %}

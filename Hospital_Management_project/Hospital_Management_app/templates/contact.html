@@ -1,0 +1,256 @@
+{% extends 'navigation.html' %}
+{% load static %}
+{% block body %}
+
+<style>
+    .contact-section {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #21446B 0%, #2c3e50 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+    
+    .contact-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    
+    .contact-header {
+        background: #3498db;
+        color: white;
+        padding: 25px;
+        text-align: center;
+    }
+    
+    .contact-header h1 {
+        font-weight: 600;
+        margin: 0;
+        font-size: 28px;
+    }
+    
+    .contact-body {
+        padding: 30px;
+    }
+    
+    .contact-info {
+        margin-bottom: 30px;
+    }
+    
+    .info-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 25px;
+    }
+    
+    .info-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    
+    .info-icon i {
+        font-size: 20px;
+        color: #3498db;
+    }
+    
+    .info-content h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #2c3e50;
+    }
+    
+    .info-content p {
+        color: #666;
+        margin: 0;
+        line-height: 1.6;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+    
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 12px 15px;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+    
+    textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+    }
+    
+    .btn-primary {
+        background: #3498db;
+        border: none;
+        padding: 12px 25px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s;
+        width: 100%;
+    }
+    
+    .btn-primary:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+    }
+    
+    .btn-reset {
+        background: #95a5a6;
+        border: none;
+        padding: 12px 25px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s;
+        width: 100%;
+    }
+    
+    .btn-reset:hover {
+        background: #7f8c8d;
+        transform: translateY(-2px);
+    }
+    
+    .alert-box {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        z-index: 1000;
+        min-width: 300px;
+    }
+</style>
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-card">
+            <div class="contact-header">
+                <h1>Contact Us</h1>
+            </div>
+            
+            <div class="contact-body">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="contact-info">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h3>Find Us at the office</h3>
+                                    <p>Sweet Homes<br>
+                                    Dihibagnan, Arambagh<br>
+                                    Hooghly, West Bengal</p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h3>Give Us a Ring</h3>
+                                    <p>Diptapriyo Ghosh<br>
+                                    +91 6297231214<br>
+                                    Arambagh (W.B.)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-7">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Contact Number</label>
+                                    <input type="text" name="contact" class="form-control" placeholder="Contact Number" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email ID</label>
+                                    <input type="email" name="email" class="form-control" placeholder="Email ID" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Subject</label>
+                                    <input type="text" name="subject" class="form-control" placeholder="Enter Subject" required>
+                                </div>
+                                
+                                <div class="col-12 mb-4">
+                                    <label class="form-label">Message</label>
+                                    <textarea name="message" class="form-control" placeholder="Your message..." required></textarea>
+                                </div>
+                                
+                                <div class="col-md-6 mb-2">
+                                    <button type="submit" class="btn btn-primary">Send Message</button>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <button type="reset" class="btn btn-reset">Clear Form</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if error == "no" %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        showNotification('Your message has been sent successfully!', 'success');
+    });
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        showNotification('Something went wrong. Please try again.', 'error');
+    });
+{% endif %}
+
+<script>
+    function showNotification(message, type) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show alert-box`;
+        notification.innerHTML = `
+            ${message}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        `;
+        
+        // Add to page
+        document.body.appendChild(notification);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
+    }
+</script>
+
+{% endblock %}
